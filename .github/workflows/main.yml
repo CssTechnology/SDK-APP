@@ -22,7 +22,7 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt  # Ensure this file includes build and twine if needed
+          pip install build twine
 
       - name: Build Wheels
         run: |
