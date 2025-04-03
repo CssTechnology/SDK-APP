@@ -10,13 +10,21 @@ jobs:
     strategy:
       matrix:
         python-version: ['3.8', '3.9', '3.10', '3.11']
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
 
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt  # Make sure this includes build and twine if not installing separately
+          pip install -r requirements.txt  # Ensure this file includes build and twine if needed
 
-      - name: Build Wheells
+      - name: Build Wheels
         run: |
           python -m pip install build
           python -m build --wheel
