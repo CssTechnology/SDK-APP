@@ -14,6 +14,18 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Setup JFrog CLI
+         uses: jfrog/setup-jfrog-cli@v4
+         env:  
+           JF_URL: ${{ vars.JF_URL }}
+           JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+           
+       - name: Set CLI Config
+         run: jf pip-config --global=true --repo-resolve=dempappsdk-pypi
+           
+       - name: Install Deps
+         run: jf pip install .  
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
@@ -29,3 +41,15 @@ jobs:
           python -m pip install build
           python -m build --wheel
           ls -l dist/
+
+      - name: Publish
+         run: jf rt upload dist/ dempappsdk-pypi/
+         
+      - name: Publish Build info With JFrog CLI
+         run: |
+          # Collect environment variables for the build
+          jf rt build-collect-env
+          # Collect VCS details from git and add them to the build
+          jf rt build-add-git
+          # Publish build info
+          jf rt build-publish)    
