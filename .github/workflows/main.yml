@@ -1,8 +1,9 @@
-name: Deploy Python SDK to Artifactory
+name: Dev Branch Pipeline
 
 on:
   push:
-    branches: [master]
+    branches: 
+      - dev
 
 jobs:
   build:
