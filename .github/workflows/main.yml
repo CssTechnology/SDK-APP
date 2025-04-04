@@ -45,7 +45,7 @@ jobs:
       - name: Publish Wheels to Artifactory
         run: jf rt upload dist/ dempappsdk-pypi/
 
-      - name: Publish Build Info With JFrog CLI
+      - name: Publish Build Info With JFrog CLIs
         run: |
           # Collect environment variables for the build
           jf rt build-collect-env
